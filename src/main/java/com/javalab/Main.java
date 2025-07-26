@@ -1,17 +1,29 @@
 package com.javalab;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import com.javalab.dao.StudentDAO;
+import com.javalab.domain.Student;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+public class Main {
+  public static void main(String[] args) {
+    Student student = new Student(1, "John", "Doe", "1234567890", "email@email.com");
+    System.out.println(student);
+    StudentDAO studentDAO = new StudentDAO();
+    System.out.println("All students:");
+    studentDAO.getAll().forEach(System.out::println);
+    System.out.println("Find student by ID:");
+    if (studentDAO.findById(student)) {
+      System.out.println("Student found: " + student);
+    } else {
+      System.out.println("Student not found with ID: " + student.getId());
     }
+    System.out.println("Adding new student:");
+    Student newStudent = new Student("Jane", "Doe", "0987654321", "rumba@gmail.com");
+    if (studentDAO.addStudent(newStudent)) {
+      System.out.println("New student added: " + newStudent);
+    } else {
+      System.out.println("Failed to add new student.");
+    }
+    System.out.println("All students:");
+    studentDAO.getAll().forEach(System.out::println);
+  }
 }
