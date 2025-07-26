@@ -1,15 +1,15 @@
 package com.javalab.domain;
 
-public class student {
+public class Student {
   private int id;
   private String name;
   private String lastName;
   private String phoneNumber;
   private String email;
 
-  public student() {}
+  public Student() {}
 
-  public student(String name, String lastName, String phoneNumber, String email) {
+  public Student(String name, String lastName, String phoneNumber, String email) {
 
     this.name = name;
     this.lastName = lastName;
@@ -17,11 +17,11 @@ public class student {
     this.email = email;
   }
 
-  public student(int id) {
+  public Student(int id) {
     this.id = id;
   }
 
-  public student(int id, String name, String lastName, String phoneNumber, String email) {
+  public Student(int id, String name, String lastName, String phoneNumber, String email) {
     this.id = id;
     this.name = name;
     this.lastName = lastName;
