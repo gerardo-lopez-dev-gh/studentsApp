@@ -4,6 +4,7 @@ import com.javalab.domain.Student;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static com.javalab.connection.ConnectionDB.getConnection;
@@ -93,6 +94,54 @@ public class StudentDAO {
     } finally {
       try {
         if (ps != null) ps.close();
+        if (connection != null) connection.close();
+      } catch (Exception e) {
+        System.out.println("Error closing resources: " + e.getMessage());
+      }
+    }
+  }
+
+  public boolean deleteStudent(Student student) {
+    PreparedStatement ps = null;
+    Connection connection = getConnection();
+    String sql = "DELETE FROM students WHERE id = ?";
+    try {
+      ps = connection.prepareStatement(sql);
+      ps.setInt(1, student.getId());
+      ps.execute();
+      return true;
+    } catch (Exception e) {
+      System.out.println("Error deleting student: " + e.getMessage());
+      return false;
+    } finally {
+      try {
+        if (ps != null) ps.close();
+        if (connection != null) connection.close();
+      } catch (Exception e) {
+        System.out.println("Error closing resources: " + e.getMessage());
+      }
+    }
+  }
+
+  public boolean updateStudent(Student student) {
+    PreparedStatement preparedStatement = null;
+    Connection connection = getConnection();
+    String sql = "UPDATE students SET name = ?, last_name = ?, phone = ?, email = ? WHERE id = ?";
+    try {
+      preparedStatement = connection.prepareStatement(sql);
+      preparedStatement.setString(1, student.getName());
+      preparedStatement.setString(2, student.getLastName());
+      preparedStatement.setString(3, student.getPhoneNumber());
+      preparedStatement.setString(4, student.getEmail());
+      preparedStatement.setInt(5, student.getId());
+      preparedStatement.execute();
+      return true;
+    } catch (SQLException e) {
+      System.out.printf("Error updating student: %s%n", e.getMessage());
+      return false;
+    } finally {
+      try {
+        if (preparedStatement != null) preparedStatement.close();
         if (connection != null) connection.close();
       } catch (Exception e) {
         System.out.println("Error closing resources: " + e.getMessage());
